@@ -7,10 +7,6 @@ Welcome to the HNGx REST API! This API allows you to perform simple CRUD operati
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Configuration](#configuration)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Prerequisites
 
@@ -50,18 +46,12 @@ Follow these steps to install and run the Awesome API:
    
    `pip install -r requirements.txt`
 
-
-
 ## Usage
 
 To run the API locally, use the following command:
 
 `python api.py`
 
-
-
 There is also a `tests.py` file to test locally if everything works properly.
-
-
 
 Your API will be accessible at `http://localhost:5000/`. You can then make HTTP requests to the provided endpoints.
