@@ -59,6 +59,22 @@ def close_db(exception):
         db.close()
 
 
+@app.route('/', methods=['GET'])
+def home():
+    """
+    Handle the home endpoint of the API.
+
+    This function provides a simple HTML response describing the purpose of the API.
+
+    Returns:
+        str: An HTML response with information about the API.
+    """
+    return """<h2>HNGx REST API</h2>
+    <p>This is a simple REST API for the HNGx Internship at Zuri Team.<br>
+    Add /api at the end of your URL.</p>
+    """
+
+
 @app.route('/api', methods=['POST'])
 def create_person():
     """
@@ -72,6 +88,10 @@ def create_person():
     try:
         # Get the 'name' from the request JSON data
         name = request.json['name']
+
+        # Check if the given name is a string
+        if not isinstance(name, str):
+            return jsonify({'message': 'Error: name must be a string'}), 400
 
         # Get the database connection
         db = get_db()
@@ -89,7 +109,7 @@ def create_person():
 
 
 @app.route('/api/<int:id>', methods=['GET'])
-def get_person(id):
+def read_person(id):
     """
     Retrieve details of a person by their ID.
 
@@ -113,7 +133,7 @@ def get_person(id):
             return jsonify({'message': 'Person not found'}), 404
 
         # Return the person details
-        return jsonify({'id': person[0], 'name': person[1]})
+        return jsonify({'id': person[0], 'name': person[1]}), 200
     except Exception as error:
         # Return an error response with details
         return jsonify({'message': 'Error getting person', 'error': str(error)}), 500
@@ -133,6 +153,10 @@ def update_person(id):
     try:
         # Get the 'name' from the request JSON data
         name = request.json['name']
+
+        # Check if the given name is a string
+        if not isinstance(name, str):
+            return jsonify({'message': 'Error: name must be a string'}), 400
 
         # Get the database connection
         db = get_db()
@@ -174,6 +198,36 @@ def delete_person(id):
     except Exception as error:
         # Return an error response with details
         return jsonify({'message': 'Error deleting person', 'error': str(error)}), 500
+
+
+@app.route('/api', methods=['GET'])
+def read_all_persons():
+    """
+    Retrieve details of all persons in the database.
+
+    This function fetches all the records from the 'person' table and returns a JSON array
+    containing the details of all persons.
+
+    Returns:
+        tuple: A tuple containing a JSON response with all person details and HTTP status code.
+    """
+    try:
+        # Get the database connection
+        db = get_db()
+        cursor = db.cursor()
+
+        # Query the database to retrieve all persons
+        cursor.execute('SELECT * FROM person')
+        persons = cursor.fetchall()
+
+        # Create a list of person details
+        person_list = [{'id': person[0], 'name': person[1]} for person in persons]
+
+        # Return the list of person details as JSON
+        return jsonify(person_list), 200
+    except Exception as error:
+        # Return an error response with details
+        return jsonify({'message': 'Error getting all persons', 'error': str(error)}), 500
 
 
 # Run the Flask application in debug mode

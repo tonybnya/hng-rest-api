@@ -27,5 +27,41 @@ Follow these steps to install and run the Awesome API:
    
    ```bash
    git clone https://github.com/tonybnya/hng-rest-api.git
-   cd awesome-api
+   cd hng-rest-api
    ```
+
+2. Create and activate a virtual environment (recommended):
+   
+   ```bash
+   python -m venv venv
+   ```
+
+3. Activate the virtual environment:
+   
+   - On Windows
+     
+     `venv\Scripts\activate`
+   
+   - On Mac & Linux
+     
+     `source venv/bin/activate`
+
+4. Install the required dependencies
+   
+   `pip install -r requirements.txt`
+
+
+
+## Usage
+
+To run the API locally, use the following command:
+
+`python api.py`
+
+
+
+There is also a `tests.py` file to test locally if everything works properly.
+
+
+
+Your API will be accessible at `http://localhost:5000/`. You can then make HTTP requests to the provided endpoints.
